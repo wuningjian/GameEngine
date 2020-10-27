@@ -77,6 +77,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     // sort through and find what code to run for the message given
     switch(message)
     {
+        // 绘制窗口
         case WM_PAINT:
             {
                 PAINTSTRUCT ps;
