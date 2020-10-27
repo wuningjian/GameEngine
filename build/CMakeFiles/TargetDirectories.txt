@@ -1,0 +1,10 @@
+D:/ProjectFolder/testcpp/GameEngine/build/CMakeFiles/edit_cache.dir
+D:/ProjectFolder/testcpp/GameEngine/build/CMakeFiles/rebuild_cache.dir
+D:/ProjectFolder/testcpp/GameEngine/build/FrameWork/CMakeFiles/edit_cache.dir
+D:/ProjectFolder/testcpp/GameEngine/build/FrameWork/CMakeFiles/rebuild_cache.dir
+D:/ProjectFolder/testcpp/GameEngine/build/FrameWork/Common/CMakeFiles/Common.dir
+D:/ProjectFolder/testcpp/GameEngine/build/FrameWork/Common/CMakeFiles/edit_cache.dir
+D:/ProjectFolder/testcpp/GameEngine/build/FrameWork/Common/CMakeFiles/rebuild_cache.dir
+D:/ProjectFolder/testcpp/GameEngine/build/Empty/CMakeFiles/Empty.dir
+D:/ProjectFolder/testcpp/GameEngine/build/Empty/CMakeFiles/edit_cache.dir
+D:/ProjectFolder/testcpp/GameEngine/build/Empty/CMakeFiles/rebuild_cache.dir

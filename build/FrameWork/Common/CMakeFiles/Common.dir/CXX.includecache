@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../Framework/Interface/IRuntimeModule.hpp
+Interface.hpp
+../Framework/Interface/Interface.hpp
+
+../Framework/Interface/Interface.hpp
+
+D:/ProjectFolder/testcpp/GameEngine/FrameWork/Common/GraphicsManager.cpp
+GraphicsManager.hpp
+D:/ProjectFolder/testcpp/GameEngine/FrameWork/Common/GraphicsManager.hpp
+
+D:/ProjectFolder/testcpp/GameEngine/FrameWork/Common/GraphicsManager.hpp
+IRuntimeModule.hpp
+D:/ProjectFolder/testcpp/GameEngine/FrameWork/Common/IRuntimeModule.hpp
+
