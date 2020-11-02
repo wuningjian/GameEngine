@@ -1,4 +1,4 @@
-// include the basic windows header file
+﻿// include the basic windows header file
 #include <windows.h>
 #include <windowsx.h>
 #include <stdio.h>
@@ -43,6 +43,8 @@ namespace My {
     {
         if (FAILED(hr))
         {
+            static char s_str[64] = { 0 };
+            sprintf_s(s_str, "Failure with HRESULT of %08X",static_cast<unsigned int>(hr));
             throw com_exception(hr);
         }
     }
@@ -158,6 +160,7 @@ void InitConstants() {
     g_mViewProjectionMatrix = g_mWorldToViewMatrix * g_mProjectionMatrix;
 }
 
+// BuildTorusMesh(0.8f, 0.2f, 64, 32, 4, 1, &torus);
 void BuildTorusMesh(
                 float outerRadius, float innerRadius, 
                 uint16_t outerQuads, uint16_t innerQuads, 
@@ -185,7 +188,7 @@ void BuildTorusMesh(
     // build vertices 
     pDestMesh->m_vertexBuffer = new uint8_t[pDestMesh->m_vertexBufferSize];
 
-    SimpleMeshVertex* outV = static_cast<SimpleMeshVertex*>(pDestMesh->m_vertexBuffer);
+    SimpleMeshVertex* outV = static_cast<SimpleMeshVertex*>(pDestMesh->m_vertexBuffer); // 把m_vertexbuffer的类型转为SimpleMeshVertex类型(buffer size的空间大小都分配好了，所以安全)
     const XMFLOAT2 textureScale = XMFLOAT2(outerRepeats / (outerVertices - 1.0f), innerRepeats / (innerVertices - 1.0f));
     for (uint32_t o = 0; o < outerVertices; ++o)
     {
@@ -888,7 +891,7 @@ void Update()
     XMStoreFloat4x4(&g_ConstantBufferData.m_modelViewProjection, XMMatrixTranspose(m * g_mViewProjectionMatrix));
     XMVECTOR v = XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f);
     v = XMVector4Transform(v, g_mLightToWorldMatrix);
-    v = XMVector4Transform(v, g_mWorldToViewMatrix); // 光在view的坐标
+    v = XMVector4Transform(v, g_mWorldToViewMatrix);
     XMStoreFloat4(&g_ConstantBufferData.m_lightPosition, v);
     g_ConstantBufferData.m_lightColor       = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
     g_ConstantBufferData.m_ambientColor     = XMFLOAT4(0.0f, 0.0f, 0.7f, 1.0f);
