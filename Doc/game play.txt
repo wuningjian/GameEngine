@@ -1,0 +1,163 @@
+单场景加载逻辑
+
+
+板块1
+基础知识与数据结构
+1.委托是什么? event 关键字有什么用？
+函数指针
+
+2.Unity协程是如何实现的？
+状态机
+
+3.摄像机有几种模式，成像原理分别是什么？
+透视
+正交
+
+4.Canvas 有几种模式，如何配置？
+overlay 
+camera
+
+5.UGUI如何打包图集？
+没搞这个，我们自己实现了一套ui的图集处理方法，一个UI如果不把texture的引用去掉，打出来的ab包会把引用的图集一起打进去，导致prefab只有几十k，打出来的ab包却有几m
+好处：对ab加载的控制更强，懒加载也能实现了
+因此，对于每一个ui prefab，创建一个ui desc（scriptableObject）,保存每个有image组件，有texture引用的transform，prefab里置空引用
+
+6.UGUI 如何实现UI物体淡入淡出?
+协程 update
+
+7.Hash表的原理是什么, 如何实现?
+
+8.链表如何实现?
+
+9.Unity节点缓存池如何实现?
+
+10.Unity如何实现单例模式?
+泛型Activator.CreateInstance<T>()
+
+11.[MenuItem] 什么意思?
+MenuItemAttribute  GetCustomAttributes可以访问
+
+12.打包ab包出来后.manifest有什么作用？
+记录ab包的内容和依赖
+
+13.Image与RawImage的区别?
+image索引的是sprite，RamImage索引的是贴图，通过矩形确定截取显示
+
+14.Unity有哪些特定的文件夹名字，有什么作用？
+Assets Resources Plugins StreamingAssets Editor
+
+15.Unity如何实现游戏截图？
+摄像机渲染当前帧，保存texture再保存png等图片格式
+
+16.Unity如何调用android与iOS的 API函数? 参考：https://www.jianshu.com/p/1ab65bee6692
+安卓调untiy
+UnityPlayer.UnitySendMessage("_AppRoot", "OnNativeMessage", "QuitGame");
+untiy调安卓
+public static T CallAndroidFunc<T>(string funcName, System.Object[] paramArr = null)
+        {
+            AndroidJavaClass jc = new AndroidJavaClass(AndroidUnityClass);
+            AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
+            if (paramArr != null)
+                return jo.Call<T>(funcName, paramArr);
+            else
+                return jo.Call<T>(funcName);
+        }
+
+ios调unity 
+1 UnitySendMessage
+2 非托管方法
+unity 调iOS
+oc代码，xx.mm xx.h extern "C"
+然后在DLLNAME = "__Internal"，和调用静态库一样
+
+板块2
+框架设计与资源管理
+1.Unity项目框架是如何设计的？有哪些原则?
+
+2.资源管理是如何做的，如何更新与打空包?
+
+3.资源管理的平台，版本，渠道是如何管理的？
+
+4.项目框架是如何让美术，策划，程序愉快的工作的？
+
+5.真机调试，看打印日志你是如何处理的？
+
+6.Unity如何避免多人提交代码冲突？
+
+7.框架你用了哪些设计模式，分别是什么？解决什么问题
+
+8.你的项目是如何做热更新的？
+
+9.框架设计里面你常用的第三方库和插件是哪些？解决哪些问题？
+
+10.聊聊ECS框架，DOTS模式。
+
+11.Addressable 管理资源的优势有哪些？
+
+12.Unity如何对接网络游戏服务器？
+
+板块3
+常用工具与算法
+1.如果让你设计一个RPG地图编辑器，你怎么设计？
+
+2.如果你用代码来生成地图，你会怎么做？
+
+3.如果设计Astar寻路导航系统，如何做,注意哪些点？
+
+4.如果一个地图很大，怎么办？
+
+5.游戏地图是如何切换的？
+
+6.如何管理场景中的物体，给个范围能快速找出范围内物体。
+
+7.给一个墙，如何实现从墙上挖一个矩形的门出来。
+
+8.时间复杂度，空间复杂度是什么？怎么计算？
+
+9.时间换空间，空间换时间，分别是什么？举个你用过这种思想的例子。
+
+板块4
+Shader开发
+1.Unity GPU 管道渲染流水线是如何绘制物体的？
+
+2.模型坐标，世界坐标，摄像机坐标分别是什么？
+
+3.CPU如何向Shader传递数据？数据可否在
+
+Shader中修改？
+
+4.如何设置一个Shader预先加载常驻内存？
+
+5.Set Pass Call是什么？
+
+6.顶点片元shader与表面着色shader分别有什么不懂？
+
+7.如何在Shader中获取摄像机的位置？
+
+8.如何判断一个点是模型的上部还是下部？
+
+9.透明渲染队列，和普通渲染队列有什么不同，系统如何处理的？
+
+10.背面剔除是什么， 正面剔除是什么？
+
+模块5
+性能调优
+1.静态合批的原理是什么？会造成开销么？如果会，开销有哪些?
+
+2.动态合批的条件是什么？会造成开销么？如果会，开销有哪些？
+
+3.GPU Instancing 合批的条件是什么？
+
+4.Drawcall是什么？说说如何降低Drawcall?
+
+5.SetPass Call 是什么？
+
+6.Android/iOS平台的纹理格式分别设置成什么？有什么好处？
+
+7.谈谈做游戏优化的一般思路是什么？
+
+9.谈谈Unity 游戏引擎里面耗性能的主要有哪些地方？
+
+10.Unity是如何绘制3D物体的？
+
+11.Unity 减少GC开销，写代码要注意哪些方面？
