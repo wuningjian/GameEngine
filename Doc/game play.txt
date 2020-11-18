@@ -9,18 +9,18 @@ main ui cfg
 板块1
 基础知识与数据结构
 1.委托是什么? event 关键字有什么用？
-函数指针
+类型安全的函数指针
 
 2.Unity协程是如何实现的？
-状态机
+要先定义IEnumberator对象，协程开始时需要yeild return配合，IEnumberator内部就是通过Movenext方法被调用，更新Current变量，更新状态机，根据状态返回true false
 
 3.摄像机有几种模式，成像原理分别是什么？
-透视
+透视 //除以z
 正交
 
 4.Canvas 有几种模式，如何配置？
-overlay 
-camera
+overlay 一直覆盖在最上层 
+camera  根据深度显示
 
 5.UGUI如何打包图集？
 没搞这个，我们自己实现了一套ui的图集处理方法，一个UI如果不把texture的引用去掉，打出来的ab包会把引用的图集一起打进去，导致prefab只有几十k，打出来的ab包却有几m
@@ -31,16 +31,19 @@ camera
 协程 update
 
 7.Hash表的原理是什么, 如何实现?
+设计hash函数，解决冲突（链表法）-例子：lua短字符缓存
 
 8.链表如何实现?
+Linklist linklistNode
 
 9.Unity节点缓存池如何实现?
+gamepool new delete free
 
 10.Unity如何实现单例模式?
 泛型Activator.CreateInstance<T>()
 
 11.[MenuItem] 什么意思?
-MenuItemAttribute  GetCustomAttributes可以访问
+MenuItemAttribute，一个attribute的派生类，有点像public private  GetCustomAttributes可以访问，注释代码
 
 12.打包ab包出来后.manifest有什么作用？
 记录ab包的内容和依赖
@@ -52,7 +55,7 @@ image索引的是sprite，RamImage索引的是贴图，通过矩形确定截取�
 Assets Resources Plugins StreamingAssets Editor
 
 15.Unity如何实现游戏截图？
-摄像机渲染当前帧，保存texture再保存png等图片格式
+选定摄像机，每个摄像机选定渲染层，渲染当前帧，保存texture再保存png等图片格式
 
 16.Unity如何调用android与iOS的 API函数? 参考：https://www.jianshu.com/p/1ab65bee6692
 安卓调untiy
@@ -81,7 +84,7 @@ oc代码，xx.mm xx.h extern "C"
 分三大文件夹，editor美术策划用，engine前端开发用，资源跑的Resources文件夹的，pack工程打ab包打安卓工程ios工程用，engine的Resources对应这里的_Resource文件夹用于打ab包，里面的资源目录，配置目录，游戏代码都是互通的，Editor文件夹editor和engine和pack都不一样，pack工程多出Platform文件夹用于管理不同渠道sdk
 
 2.资源管理是如何做的，如何更新与打空包?
-打包附带hash，每个文件都记录priority
+打包附带hash，每个文件都记录priority，打完包之后读取字节流，计算crc并保存filelist，请求的时候先请求filelist，根据
 
 3.资源管理的平台，版本，渠道是如何管理的？
 
@@ -99,8 +102,11 @@ svn git
 
 
 9.框架设计里面你常用的第三方库和插件是哪些？解决哪些问题？
+debugconsole，
 
 10.聊聊ECS框架，DOTS模式。
+实体（属性，数据存储地方），组件（类似名字），system（逻辑）
+据说可以按块读取数据，加大cache的命中，提高运行速度
 
 11.Addressable 管理资源的优势有哪些？
 
@@ -111,10 +117,12 @@ svn git
 1.如果让你设计一个RPG地图编辑器，你怎么设计？
 
 2.如果你用代码来生成地图，你会怎么做？
+mapdesc，导出的时候保存所有的信息，场景
 
 3.如果设计Astar寻路导航系统，如何做,注意哪些点？
 
 4.如果一个地图很大，怎么办？
+渲染 LOD。GameObj管理，四叉树算法管理。log4(n)查找
 
 5.游戏地图是如何切换的？
 单场景，收到后端通知切场景，开始切换loading状态，
@@ -127,18 +135,18 @@ svn git
 8.时间复杂度，空间复杂度是什么？怎么计算？
 
 9.时间换空间，空间换时间，分别是什么？举个你用过这种思想的例子。
-空间换时间 对象池，红点列表，预加载常用资源
+空间换时间 对象池，红点列表，预加载常用资源，UnuseLayer保存无用的gameobject
 时间换空间 所有有可能再次用到的计算结果，没有保存下来，每次用都是再次计算或者再次new出来都算
 
 板块4
 Shader开发
 1.Unity GPU 管道渲染流水线是如何绘制物体的？
 
+
 2.模型坐标，世界坐标，摄像机坐标分别是什么？
 
-3.CPU如何向Shader传递数据？数据可否在
+3.CPU如何向Shader传递数据？数据可否在Shader中修改？
 
-Shader中修改？
 
 4.如何设置一个Shader预先加载常驻内存？
 
@@ -150,12 +158,13 @@ Shader中修改？
 unity shader内置变量_WorldSpaceCameraPos
 
 8.如何判断一个点是模型的上部还是下部？
-点通过unity_ObjectToWorld的逆矩阵，变化到模型空间，再看z>0
+点通过unity_ObjectToWorld的逆矩阵，变化到模型空间，再看y>0
 
 9.透明渲染队列，和普通渲染队列有什么不同，系统如何处理的？
 开启Zwrite ZTest
 
 10.背面剔除是什么， 正面剔除是什么？
+剔除背面的三角面（图元装配），正面剔除片元--ztest或者earlyz
 
 模块5
 性能调优
@@ -166,14 +175,16 @@ unity shader内置变量_WorldSpaceCameraPos
 材质相同，顶点较少的网格。合并网格开销。
 
 3.GPU Instancing 合批的条件是什么？
-
+obj用相同的网格和材质
 
 4.Drawcall是什么？说说如何降低Drawcall?
-CPU向GPU提交渲染所需要的内容，包括顶点数据，材质，纹理等
+CPU向GPU提交渲染所需要的内容，消耗的是cpu的性能，包括顶点数据，材质，纹理等
 
 5.SetPass Call 是什么？
+大约等于所有GameObject所包含的Material种类数量
 
 6.Android/iOS平台的纹理格式分别设置成什么？有什么好处？
+etc2 8bit / pvrtc 4bit
 
 7.谈谈做游戏优化的一般思路是什么？
 
@@ -181,6 +192,8 @@ CPU向GPU提交渲染所需要的内容，包括顶点数据，材质，纹理�
 gc，大量的drawcall
 
 10.Unity是如何绘制3D物体的？
+图元装配（这里可以背面剔除）-顶点着色-几何着色-裁剪-屏幕映射-三角形建立-三角形遍历（光栅化）-earlyz-片元着色-深度测试 模板测试-输出缓冲区
 
 11.Unity 减少GC开销，写代码要注意哪些方面？
-
+不用的gameobject缓存起来，放在unuserLayer里，写gamepool管理以后再复用。
+c#代码中堆分配的对象，内存，尽量缓存起来复用，少new新class，比如ab加载管理的对象
